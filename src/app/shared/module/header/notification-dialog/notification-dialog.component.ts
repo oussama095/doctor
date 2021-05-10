@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {Notification} from '../../schema/notification';
+import {Notification} from '../../../schema/notification';
 
 @Component({
   selector: 'app-notification-dialog',
