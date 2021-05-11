@@ -8,6 +8,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './shared/service/interceptor/interceptor';
 import {HeaderModule} from './shared/module/header/header.module';
 import {ProfileModule} from './views/profile/profile.module';
+import {AppointmentModule} from './views/appointment/appointment.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {ProfileModule} from './views/profile/profile.module';
     BrowserAnimationsModule,
     HttpClientModule,
     HeaderModule,
-    ProfileModule
+    ProfileModule,
+    AppointmentModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}],
   bootstrap: [AppComponent]
