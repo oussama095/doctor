@@ -4,18 +4,28 @@ import {AppointmentComponent} from './appointment.component';
 import {FullCalendarModule} from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import listWeek from '@fullcalendar/list';
+import {AppointmentDialogComponent} from './appointement-dialog/appointment-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
-  interactionPlugin
+  interactionPlugin,
+  listWeek
 ]);
 
 @NgModule({
-  declarations: [AppointmentComponent],
+  declarations: [AppointmentComponent, AppointmentDialogComponent],
   imports: [
     CommonModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule
+
   ],
   exports: [AppointmentComponent]
 })

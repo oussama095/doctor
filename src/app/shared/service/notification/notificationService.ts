@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Notification} from '../../schema/notification';
+import {Notification} from '../../model/notification';
 
 @Injectable({
   providedIn: 'root'

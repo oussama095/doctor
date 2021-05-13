@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PatientService} from '../../shared/service/patient/patientService';
-import {Patient} from '../../shared/schema/patient';
+import {Patient} from '../../shared/model/patient';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
