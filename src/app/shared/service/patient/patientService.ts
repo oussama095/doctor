@@ -6,24 +6,26 @@ import {Patient} from '../../model/patient';
   providedIn: 'root'
 })
 export class PatientService {
+  serviceBaseUrl = 'patient';
+
   constructor(private http: HttpClient) {
   }
 
   getAllPatients(): Promise<Patient[]> {
-    const reqUrl = 'patients';
-    return this.http.get<Patient[]>(reqUrl).toPromise().then((patients) => patients);
+    return this.http.get<Patient[]>(this.serviceBaseUrl + '/all').toPromise().then((patients) => patients);
   }
 
-  getPatient(patientID: string): Promise<Patient> {
-    const reqUrl = `patient`;
-    return this.http.get<Patient>(reqUrl, {params: {id: patientID}}).toPromise().then((patient) => patient);
+  getPatient(patientId: string): Promise<Patient> {
+    return this.http.get<Patient>(this.serviceBaseUrl, {params: {patientId}}).toPromise().then((patient) => patient);
   }
 
   updatePatient(patient: Patient): Promise<Patient> {
-    const reqUrl = `patient/${patient.id}`;
-    console.log(patient);
-    return this.http.put<Patient>(reqUrl, patient).toPromise().then((patientUpdated) => patientUpdated);
+
+    return this.http.put<Patient>(this.serviceBaseUrl, patient).toPromise().then((patientUpdated) => patientUpdated);
   }
 
+  deletePatient(patient: Patient): Promise<void> {
+    return this.http.request<boolean>('delete', this.serviceBaseUrl, {body: patient}).toPromise().then();
+  }
 
 }

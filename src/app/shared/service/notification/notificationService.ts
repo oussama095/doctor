@@ -9,13 +9,13 @@ export class NotificationService {
   constructor(private http: HttpClient) {
   }
 
-  getAllNotifications(): Promise<Notification[]> {
-    const reqUrl = 'notifications';
+  getAllNotificationsOfPatient(patientId: string): Promise<Notification[]> {
+    const reqUrl = `notification/${patientId}`;
     return this.http.get<Notification[]>(reqUrl).toPromise().then((notification) => notification);
   }
 
   setReadNotification(id: string): Promise<Notification> {
-    const reqUrl = `notifications/notification/${id}`;
+    const reqUrl = `notification/${id}`;
     return this.http.put<Notification>(reqUrl, null).toPromise().then((notification) => notification);
   }
 }

@@ -21,7 +21,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   updateNotification(): void {
-    this.notificationService.getAllNotifications().then((notification: Notification[]) => {
+    this.notificationService.getAllNotificationsOfPatient('1').then((notification: Notification[]) => {
       this.notifications = notification;
       this.notificationsBadge = 0;
       this.notifications.forEach(element => {

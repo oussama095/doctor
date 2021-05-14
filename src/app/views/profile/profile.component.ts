@@ -46,7 +46,6 @@ export class ProfileComponent implements OnInit {
   }
 
   enableEdit(): void {
-    console.log(this.profileFormGroup.value);
     this.profileFormGroup.enable();
   }
 
