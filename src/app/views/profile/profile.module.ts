@@ -9,11 +9,16 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {RouterModule} from '@angular/router';
+import {ProfileInformationComponent} from './profile-information/profile-information.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    ProfileInformationComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +29,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    RouterModule
   ],
   exports: [
     ProfileComponent

@@ -1,0 +1,69 @@
+<mat-sidenav-container class="side-nav-container" autosize hasBackdrop="false">
+  <mat-sidenav #sNav opened mode="side" class="side-nav">
+    <button *ngIf="sNav.opened" mat-icon-button color="primary"
+            class="close-button" (click)="sNav.toggle()" [disableRipple]="true">
+      <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Personal data
+          </mat-panel-title>
+          <mat-panel-description>
+            <div class="spacer"></div>
+            <mat-icon>account_circle</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-action-list>
+          <mat-list-item routerLink="/profile">
+            Profile
+          </mat-list-item>
+          <mat-list-item routerLink="/profile/settings">
+            Settings
+          </mat-list-item>
+        </mat-action-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Appointments
+          </mat-panel-title>
+          <mat-panel-description>
+            <div class="spacer"></div>
+            <mat-icon>insert_invitation</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-action-list>
+          <mat-list-item routerLink="/appointment">
+            My appointments
+          </mat-list-item>
+          <mat-list-item routerLink="/appointment/booking">
+            Book appointment
+          </mat-list-item>
+        </mat-action-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Transcriptions
+          </mat-panel-title>
+          <mat-panel-description>
+            <div class="spacer"></div>
+            <mat-icon>insert_invitation</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-action-list>
+          <mat-list-item routerLink="/transcription">
+            My transcription
+          </mat-list-item>
+        </mat-action-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-sidenav>
+  <button mat-icon-button *ngIf="!sNav.opened" color="primary" (click)="sNav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <ng-content></ng-content>
+</mat-sidenav-container>

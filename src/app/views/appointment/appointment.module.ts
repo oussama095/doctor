@@ -9,6 +9,9 @@ import {AppointmentDialogComponent} from './appointement-dialog/appointment-dial
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {BookingAppointmentComponent} from './booking-appointment/booking-appointment.component';
+import {AppointmentRoutingModule} from './appointment-routing.module';
+import {AppointmentOverviewComponent} from './appointment-overview/appointment-overview.component';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -18,16 +21,21 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [AppointmentComponent, AppointmentDialogComponent],
+  declarations: [
+    AppointmentOverviewComponent,
+    AppointmentComponent,
+    AppointmentDialogComponent,
+    BookingAppointmentComponent,
+  ],
   imports: [
     CommonModule,
+    AppointmentRoutingModule,
     FullCalendarModule,
     MatDialogModule,
     MatIconModule,
     MatButtonModule
-
   ],
-  exports: [AppointmentComponent]
+  exports: []
 })
 export class AppointmentModule {
 }

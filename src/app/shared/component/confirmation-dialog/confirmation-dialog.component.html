@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Delete Confirmation</h1>
+<mat-dialog-content>
+<p>
+  Are you sure you want to delete {{type}} : {{name}}?
+  this action is permanent!
+</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button color="primary" mat-dialog-close="false">Cancel</button>
+  <button mat-stroked-button color="warn" mat-dialog-close="true">Delete</button>
+</mat-dialog-actions>

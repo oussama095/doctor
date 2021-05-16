@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PatientService} from '../../shared/service/patient/patientService';
+import {PatientService} from '../../shared/service/patient/patient.service';
 import {Patient} from '../../shared/model/patient';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';

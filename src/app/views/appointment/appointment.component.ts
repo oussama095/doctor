@@ -1,50 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {CalendarOptions} from '@fullcalendar/angular';
-import {AppointmentService} from '../../shared/service/appointment/appointment.service';
-import {Appointment} from '../../shared/model/appointment';
-import {CalendarEvent} from './model/CalendarEvent';
-import {getCalendarEvent} from './utils/appointmentUtils';
-import {MatDialog} from '@angular/material/dialog';
-import {AppointmentDialogComponent} from './appointement-dialog/appointment-dialog.component';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-appointment',
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss']
 })
-export class AppointmentComponent implements OnInit {
-  appointments!: Appointment[];
-  calendarEvents!: CalendarEvent[];
-  calendarOptions!: CalendarOptions;
+export class AppointmentComponent {
 
 
-  constructor(public dialog: MatDialog, private appointmentService: AppointmentService) {
-  }
-
-  ngOnInit(): void {
-    this.appointmentService.getAppointments('1').then(appointments => {
-      this.appointments = appointments;
-      this.calendarEvents = getCalendarEvent(this.appointments);
-      this.calendarOptions = {
-        initialView: 'listWeek',
-        contentHeight: 'auto',
-        eventClick: this.handleDateClick.bind(this), // bind is important!,
-        events: this.calendarEvents
-      };
-    });
-  }
-
-  // tslint:disable-next-line:typedef
-  handleDateClick(event: any) {
-    const calendarEvent = new CalendarEvent(event.event.title, event.event.start, event.event.end, {
-      id: event.event.extendedProps.id,
-      description: event.event.extendedProps.description
-    });
-    this.dialog.open(AppointmentDialogComponent, {
-      panelClass: 'container',
-      autoFocus: false,
-      restoreFocus: false,
-      data: {calendarEvent}
-    });
-  }
 }

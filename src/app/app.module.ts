@@ -9,20 +9,31 @@ import {Interceptor} from './shared/service/interceptor/interceptor';
 import {HeaderModule} from './shared/module/header/header.module';
 import {ProfileModule} from './views/profile/profile.module';
 import {AppointmentModule} from './views/appointment/appointment.module';
+import {PageNotFoundComponent} from './shared/component/page-not-found/page-not-found.component';
+import {MatButtonModule} from '@angular/material/button';
+import {SideNavModule} from './shared/module/side-nav/side-nav.module';
+import {ConfirmationDialogComponent} from './shared/component/confirmation-dialog/confirmation-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     HeaderModule,
     ProfileModule,
-    AppointmentModule
+    AppointmentModule,
+    SideNavModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}],
   bootstrap: [AppComponent]

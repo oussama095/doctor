@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CalendarEvent} from '../model/CalendarEvent';
+import {ConfirmationDialogComponent} from '../../../shared/component/confirmation-dialog/confirmation-dialog.component';
+import {AppointmentService} from '../../../shared/service/appointment/appointment.service';
 
 @Component({
   selector: 'app-appointment-dialog',
@@ -11,7 +13,10 @@ export class AppointmentDialogComponent implements OnInit {
 
   calendarEvent!: CalendarEvent;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: { calendarEvent: CalendarEvent }) {
+  constructor(public dialog: MatDialog,
+              public dialogRef: MatDialogRef<AppointmentDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) private data: { calendarEvent: CalendarEvent },
+              private appointmentService: AppointmentService) {
   }
 
   ngOnInit(): void {
@@ -19,4 +24,19 @@ export class AppointmentDialogComponent implements OnInit {
     console.log(this.calendarEvent);
   }
 
+  openConfirmationDialog(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      panelClass: 'container',
+      autoFocus: false,
+      restoreFocus: false,
+      data: {text: this.calendarEvent.title}
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.appointmentService.deleteAppointment(this.calendarEvent.extendedProps.id.toString()).then(() => {
+          this.dialogRef.close(true);
+        });
+      }
+    });
+
+  }
 }

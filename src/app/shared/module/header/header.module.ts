@@ -8,6 +8,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatMenuModule,
     MatBadgeModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    RouterModule
   ],
   exports: [
     ToolbarComponent

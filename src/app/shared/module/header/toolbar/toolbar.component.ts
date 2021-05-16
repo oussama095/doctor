@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Notification} from '../../../model/notification';
 import {MatDialog} from '@angular/material/dialog';
 import {NotificationDialogComponent} from '../notification-dialog/notification-dialog.component';
-import {NotificationService} from '../../../service/notification/notificationService';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +11,7 @@ import {NotificationService} from '../../../service/notification/notificationSer
 })
 export class ToolbarComponent implements OnInit {
   notifications: Notification[] = [];
-  notificationsBadge = 0;
+  notificationsBadge: number | null = 0;
 
   constructor(public dialog: MatDialog, private notificationService: NotificationService) {
   }
@@ -26,9 +26,11 @@ export class ToolbarComponent implements OnInit {
       this.notificationsBadge = 0;
       this.notifications.forEach(element => {
         if (!element.isRead) {
+          // @ts-ignore - can't be null
           this.notificationsBadge++;
         }
       });
+      this.notificationsBadge = this.notificationsBadge ? this.notificationsBadge : null;
     });
   }
 
