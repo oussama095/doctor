@@ -14,6 +14,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {SideNavModule} from './shared/module/side-nav/side-nav.module';
 import {ConfirmationDialogComponent} from './shared/component/confirmation-dialog/confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {TranscriptionModule} from './views/transcription/transcription.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     HeaderModule,
     ProfileModule,
     AppointmentModule,
+    TranscriptionModule,
     SideNavModule,
     MatDialogModule,
     MatButtonModule
