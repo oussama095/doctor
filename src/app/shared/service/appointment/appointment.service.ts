@@ -12,10 +12,8 @@ export class AppointmentService {
   }
 
   getBlockers(patientId?: string): Promise<Appointment[]> {
-    const params: HttpParams = new HttpParams();
-    if (patientId) {
-      params.set('patientId', patientId);
-    }
+    if (!patientId) { patientId = ''; }
+    const params: HttpParams = new HttpParams().set('patientId', patientId);
     return this.http.get<Appointment[]>(this.basicReqUrl + 'blocker', {params})
       .toPromise().then((appointments: Appointment[]) => appointments);
   }

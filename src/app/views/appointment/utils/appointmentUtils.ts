@@ -16,7 +16,6 @@ export function getBlockersEvent(appointments: Appointment[]): BlockerEvent[] {
     editable: false,
     backgroundColor: 'red'
   }));
-
   return blockers;
 
 }

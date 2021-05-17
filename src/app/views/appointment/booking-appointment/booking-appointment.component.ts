@@ -4,7 +4,7 @@ import {AppointmentService} from '../../../shared/service/appointment/appointmen
 import {BlockerEvent} from '../model/CalendarEvent';
 import {Appointment} from '../../../shared/model/appointment';
 import {getBlockersEvent} from '../utils/appointmentUtils';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
 @Component({
@@ -21,6 +21,7 @@ export class BookingAppointmentComponent implements OnInit {
   newEvent = '';
   flag = true;
   formGroup!: FormGroup;
+  titleForm!: FormControl;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   constructor(private fb: FormBuilder, private appointmentService: AppointmentService, private router: Router) {
@@ -33,6 +34,7 @@ export class BookingAppointmentComponent implements OnInit {
       start: this.fb.control('', Validators.required),
       end: this.fb.control('')
     });
+    this.titleForm = this.formGroup.get('title') as FormControl;
     this.appointmentService.getBlockers('1').then(appointments => {
       this.blockers = appointments;
       this.calendarEvents = getBlockersEvent(this.blockers);
@@ -72,13 +74,14 @@ export class BookingAppointmentComponent implements OnInit {
   }
 
   addAppointment(): void {
+    this.formGroup.updateValueAndValidity();
     this.calendar = this.calendarComponent.getApi();
     // @ts-ignore
     const start = new Date(this.calendar.getEventById('newEvent').startStr);
-    this.formGroup.get('start')?.setValue(start.toString());
+    this.formGroup.get('start')?.setValue(start.toISOString());
     start.setHours(start.getHours() + 1);
     if (this.formGroup.valid) {
-      this.formGroup.get('end')?.setValue(start.toString());
+      this.formGroup.get('end')?.setValue(start.toISOString());
       console.log(this.formGroup.value);
       this.appointmentService.addAppointment('1', this.formGroup.value).then(appointment => {
         if (appointment) {

@@ -12,6 +12,7 @@ import {AppointmentService} from '../../../shared/service/appointment/appointmen
 export class AppointmentDialogComponent implements OnInit {
 
   calendarEvent!: CalendarEvent;
+  date!: string;
 
   constructor(public dialog: MatDialog,
               public dialogRef: MatDialogRef<AppointmentDialogComponent>,
@@ -21,7 +22,7 @@ export class AppointmentDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.calendarEvent = this.data.calendarEvent;
-    console.log(this.calendarEvent);
+    this.date = this.formatDate(this.calendarEvent.start);
   }
 
   openConfirmationDialog(): void {
@@ -38,5 +39,11 @@ export class AppointmentDialogComponent implements OnInit {
       }
     });
 
+  }
+
+  formatDate(date: string): string {
+    const dateISO: Date = new Date(date);
+    return dateISO.getFullYear() + '/' + dateISO.getDate() + '/'
+      + dateISO.getDay() + ' at ' + dateISO.getHours() + ':00';
   }
 }
