@@ -1,0 +1,18 @@
+.basic-container {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-content {
+  padding: 2vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+mat-card-actions{
+  display: flex;
+  flex-direction: row-reverse;
+}

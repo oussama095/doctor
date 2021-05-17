@@ -22,3 +22,14 @@ export class ExtendedProps {
   }
 
 }
+
+export interface BlockerEvent {
+  title: string;
+  start: string;
+  end: string;
+  overlap: boolean;
+  editable: boolean;
+  backgroundColor: string;
+
+}
+
