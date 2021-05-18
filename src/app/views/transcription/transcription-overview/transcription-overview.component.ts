@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {TranscriptionService} from '../../../shared/service/transcription/transcription.service';
+import {Transcription} from '../../../shared/model/transcription';
+import {MatDialog} from '@angular/material/dialog';
+import {MedicationDialogComponent} from '../medication-dialog/medication-dialog.component';
 
 @Component({
   selector: 'app-transcription-overview',
@@ -7,9 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TranscriptionOverviewComponent implements OnInit {
 
-  constructor() { }
+  transcriptions!: Transcription[];
 
-  ngOnInit(): void {
+  constructor(private transcriptionService: TranscriptionService, private dialog: MatDialog) {
   }
 
+  ngOnInit(): void {
+    this.transcriptionService.getTranscriptions('1').then(transcriptions => {
+      this.transcriptions = transcriptions;
+    });
+  }
+
+  openMedicationDialog(medicationId: string): void {
+    this.dialog.open(MedicationDialogComponent, {
+      panelClass: 'container',
+      autoFocus: false,
+      restoreFocus: false,
+      data: {medicationId}
+    });
+  }
 }

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {Medication} from '../../../shared/model/medication';
+import {MedicationService} from '../../../shared/service/medication/medication.service';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-medication-dialog',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MedicationDialogComponent implements OnInit {
 
-  constructor() { }
+  medication!: Medication;
 
-  ngOnInit(): void {
+  constructor(private medicationService: MedicationService,
+              @Inject(MAT_DIALOG_DATA) private data: { medicationId: string }) {
   }
 
+  ngOnInit(): void {
+    this.medicationService.getMedication(this.data.medicationId).then(medication => {
+      this.medication = medication;
+    });
+
+  }
 }

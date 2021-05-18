@@ -21,11 +21,20 @@ body {
   margin: 5vh auto;
   padding: 2vh;
 }
+.basic-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.basic-container {
+  display: flex;
+  flex-direction: column;
+}
 
 .fc-event {
   cursor: pointer !important;
 }
 
-mat-dialog-container {
+mat-dialog-content {
   width: 50vw;
 }

@@ -1,5 +1,5 @@
 export interface Medication {
-  id: 0;
+  id: string;
   name: string;
   route: string;
   drugForm: string;
@@ -7,8 +7,8 @@ export interface Medication {
 }
 
 export interface Dose {
-  id: 0;
-  quantity: 0;
+  id: string;
+  quantity: number;
   period: string;
   fullPeriod: string;
 }
