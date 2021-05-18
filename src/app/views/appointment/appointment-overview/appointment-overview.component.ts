@@ -23,17 +23,7 @@ export class AppointmentOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appointmentService.getAppointments('1').then(appointments => {
-      this.appointments = appointments;
-      this.calendarEvents = getCalendarEvent(this.appointments);
-      this.calendarOptions = {
-        initialView: 'listWeek',
-        timeZone: 'UTC',
-        contentHeight: 'auto',
-        eventClick: this.handleDateClick.bind(this), // bind is important!,
-        events: this.calendarEvents
-      };
-    });
+    this.displayAppointments();
   }
 
   // tslint:disable-next-line:typedef
@@ -49,9 +39,22 @@ export class AppointmentOverviewComponent implements OnInit {
       data: {calendarEvent}
     }).afterClosed().subscribe((updateCalendar) => {
       if (updateCalendar) {
-        // TODO update calendar
+        this.displayAppointments();
       }
     });
   }
 
+  displayAppointments(): void {
+    this.appointmentService.getAppointments('1').then(appointments => {
+      this.appointments = appointments;
+      this.calendarEvents = getCalendarEvent(this.appointments);
+      this.calendarOptions = {
+        initialView: 'listWeek',
+        timeZone: 'UTC',
+        contentHeight: 'auto',
+        eventClick: this.handleDateClick.bind(this), // bind is important!,
+        events: this.calendarEvents
+      };
+    });
+  }
 }

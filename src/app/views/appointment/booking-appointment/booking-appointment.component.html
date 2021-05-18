@@ -1,1 +1,39 @@
-<p>booking-appointment works!</p>
+<mat-card class="basic-container">
+  <form [formGroup]="formGroup" *ngIf="formGroup">
+    <mat-card-header>
+      <mat-card-title>
+        <span *ngIf="appointmentId">Edit</span>
+        Appointment Booking
+      </mat-card-title>
+      <button mat-stroked-button color="primary" (click)="addAppointment()">
+        <mat-icon>save</mat-icon>
+        <span *ngIf="!appointmentId">Book this appointment</span>
+        <span *ngIf="appointmentId">Save Changes</span>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Appointment cause</mat-label>
+        <input matInput formControlName="title" required>
+        <mat-error>Appointment cause is required</mat-error>
+        <mat-hint>Ex: Urgent appointment: I have flue</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <mat-hint>Describe your situation and why you want the appointment</mat-hint>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <h3 *ngIf="!appointmentId"> Click on an available slot to select the date of appointment - Ones clicked you can
+        drag it to edit the date
+      </h3>
+      <h3 *ngIf="appointmentId">Drag appointment slot to edit the date
+      </h3>
+      <mat-error *ngIf="flag&&firstClick">Pick a date</mat-error>
+      <full-calendar #calendar *ngIf="calendarOptions" [options]="calendarOptions"></full-calendar>
+
+
+    </mat-card-content>
+  </form>
+</mat-card>
+
+
