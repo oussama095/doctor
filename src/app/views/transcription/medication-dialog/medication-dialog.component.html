@@ -1,1 +1,22 @@
-<p>medication-dialog works!</p>
+<div *ngIf="medication">
+  <h1 mat-dialog-title>
+    {{medication.name}}
+    <button mat-icon-button color="primary" [mat-dialog-close]="true">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <mat-dialog-content>
+    <div class="row"><h3 class="row-item">Medication Route:</h3>
+      <div class="row-item">{{medication.route}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row"><h3 class="row-item">Medication Form:</h3>
+      <div class="row-item">{{medication.drugForm}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row">
+      <h3 class="row-item">Medication Dose :</h3>
+      <div class="row-item">{{medication.dose.quantity}} dose per {{medication.dose.period}}</div>
+    </div>
+  </mat-dialog-content>
+</div>

@@ -4,6 +4,8 @@ import {Medication} from '../../../shared/model/medication';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {MedicationDialogComponent} from '../medication-dialog/medication-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 export interface TableData {
   name: string;
@@ -19,20 +21,22 @@ export interface TableData {
 })
 export class MedicationOverviewComponent implements OnInit {
 
+  medicationsList!: Medication[];
   medications: MatTableDataSource<TableData> = new MatTableDataSource();
-  displayedColumns: string[] = ['name', 'route', 'drugForm', 'period']; // TODO - add status (actively taking or wfe)
+  displayedColumns: string[] = ['name', 'route', 'drugForm', 'period']; // TODO - v1: add status (actively taking or wfe)
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private medicationService: MedicationService) {
+  constructor(private medicationService: MedicationService,
+              private dialog: MatDialog) {
 
   }
 
   ngOnInit(): void {
     this.medicationService.getPatientAllMedication('51').then(medications => {
+      this.medicationsList = medications;
       const data = this.formatTableData(medications);
-      console.log(data);
       this.medications = new MatTableDataSource(data);
       this.medications.paginator = this.paginator;
       this.medications.sort = this.sort;
@@ -55,6 +59,17 @@ export class MedicationOverviewComponent implements OnInit {
         drugForm: element.drugForm,
         period: element.dose.fullPeriod,
       };
+    });
+  }
+
+  openMedicationDialog(index: number): void {
+
+    const medicationId = this.medicationsList[index].id;
+    this.dialog.open(MedicationDialogComponent, {
+      panelClass: 'container',
+      autoFocus: false,
+      restoreFocus: false,
+      data: {medicationId}
     });
   }
 }
