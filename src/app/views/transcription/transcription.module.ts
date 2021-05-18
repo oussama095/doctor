@@ -23,7 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
     TranscriptionComponent,
     TranscriptionOverviewComponent,
     MedicationOverviewComponent,
-    MedicationDialogComponent
+    MedicationDialogComponent,
   ],
   imports: [
     CommonModule,

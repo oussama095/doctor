@@ -21,6 +21,10 @@ body {
   margin: 5vh auto;
   padding: 2vh;
 }
+.basic-container {
+  display: flex;
+  flex-direction: column;
+}
 
 .basic-container {
   display: flex;
