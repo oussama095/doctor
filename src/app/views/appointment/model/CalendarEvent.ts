@@ -24,12 +24,14 @@ export class ExtendedProps {
 }
 
 export interface BlockerEvent {
+  id?: string;
   title: string;
   start: string;
   end: string;
   overlap: boolean;
   editable: boolean;
   backgroundColor: string;
+  durationEditable: boolean;
 
 }
 

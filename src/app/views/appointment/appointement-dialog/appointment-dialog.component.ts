@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {CalendarEvent} from '../model/CalendarEvent';
 import {ConfirmationDialogComponent} from '../../../shared/component/confirmation-dialog/confirmation-dialog.component';
 import {AppointmentService} from '../../../shared/service/appointment/appointment.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-appointment-dialog',
@@ -17,7 +18,8 @@ export class AppointmentDialogComponent implements OnInit {
   constructor(public dialog: MatDialog,
               public dialogRef: MatDialogRef<AppointmentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) private data: { calendarEvent: CalendarEvent },
-              private appointmentService: AppointmentService) {
+              private appointmentService: AppointmentService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -30,8 +32,12 @@ export class AppointmentDialogComponent implements OnInit {
       panelClass: 'container',
       autoFocus: false,
       restoreFocus: false,
-      data: {text: this.calendarEvent.title}
-    }).afterClosed().subscribe(confirmed => {
+      data: {
+        name: this.calendarEvent.title,
+        type: 'appointment'
+      }
+    }).afterClosed().subscribe((confirmed: boolean) => {
+      console.log(confirmed);
       if (confirmed) {
         this.appointmentService.deleteAppointment(this.calendarEvent.extendedProps.id.toString()).then(() => {
           this.dialogRef.close(true);
@@ -43,7 +49,17 @@ export class AppointmentDialogComponent implements OnInit {
 
   formatDate(date: string): string {
     const dateISO: Date = new Date(date);
-    return dateISO.getFullYear() + '/' + dateISO.getDate() + '/'
-      + dateISO.getDay() + ' at ' + dateISO.getHours() + ':00';
+    return dateISO.getFullYear() + '/' + dateISO.getMonth() + '/'
+      + dateISO.getDate() + ' at ' + dateISO.getHours() + ':00';
+  }
+
+
+  goToEdit(): void {
+    this.router.navigate(['appointment/booking', {appointmentId: this.calendarEvent.extendedProps.id}]).then(fulfilled => {
+        if (fulfilled) {
+          this.dialogRef.close();
+        }
+      }
+    );
   }
 }

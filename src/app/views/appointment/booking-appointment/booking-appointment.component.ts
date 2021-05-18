@@ -4,8 +4,8 @@ import {AppointmentService} from '../../../shared/service/appointment/appointmen
 import {BlockerEvent} from '../model/CalendarEvent';
 import {Appointment} from '../../../shared/model/appointment';
 import {getBlockersEvent} from '../utils/appointmentUtils';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-booking-appointment',
@@ -20,39 +20,76 @@ export class BookingAppointmentComponent implements OnInit {
   calendar!: Calendar;
   newEvent = '';
   flag = true;
+  firstClick = false;
   formGroup!: FormGroup;
-  titleForm!: FormControl;
+  appointmentId!: string;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
-  constructor(private fb: FormBuilder, private appointmentService: AppointmentService, private router: Router) {
+  constructor(private fb: FormBuilder,
+              private appointmentService: AppointmentService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      title: this.fb.control('', Validators.required),
-      description: this.fb.control(''),
-      start: this.fb.control('', Validators.required),
-      end: this.fb.control('')
-    });
-    this.titleForm = this.formGroup.get('title') as FormControl;
-    this.appointmentService.getBlockers('1').then(appointments => {
-      this.blockers = appointments;
-      this.calendarEvents = getBlockersEvent(this.blockers);
-      this.calendarOptions = {
-        initialView: 'timeGridWeek',
-        editable: true,
-        weekends: false,
-        slotDuration: '01:00:00',
-        slotMinTime: '09:00:00',
-        slotMaxTime: '17:00:00',
-        timeZone: 'UTC',
-        contentHeight: '50vh',
-        events: this.calendarEvents,
-        expandRows: true,
-        dateClick: this.dateClick.bind(this),
-        allDaySlot: false,
-        lazyFetching: false
-      };
+    this.appointmentService.getBlockers('1').then(blockers => {
+      this.blockers = blockers;
+      this.route.params.subscribe(params => {
+        this.appointmentId = params.appointmentId;
+        if (!this.appointmentId) {
+          this.formGroup = this.fb.group({
+            title: this.fb.control('', Validators.required),
+            description: this.fb.control(''),
+            start: this.fb.control('', Validators.required),
+            end: this.fb.control('')
+          });
+          this.calendarEvents = getBlockersEvent(this.blockers);
+          this.calendarOptions = {
+            initialView: 'timeGridWeek',
+            editable: true,
+            weekends: false,
+            slotDuration: '01:00:00',
+            slotMinTime: '09:00:00',
+            slotMaxTime: '18:00:00',
+            timeZone: 'UTC',
+            contentHeight: '50vh',
+            events: this.calendarEvents,
+            expandRows: true,
+            dateClick: this.dateClick.bind(this),
+            allDaySlot: false,
+            lazyFetching: false
+          };
+
+        } else {
+          this.flag = false;
+          this.appointmentService.getAppointment('1', this.appointmentId).then(appointment => {
+            this.formGroup = this.fb.group({
+              title: this.fb.control(appointment.title, Validators.required),
+              description: this.fb.control(appointment.description),
+              start: this.fb.control(appointment.start, Validators.required),
+              end: this.fb.control(appointment.end)
+            });
+
+            this.calendarEvents = getBlockersEvent(this.blockers, appointment);
+            this.calendarOptions = {
+              initialView: 'timeGridWeek',
+              editable: true,
+              weekends: false,
+              slotDuration: '01:00:00',
+              slotMinTime: '09:00:00',
+              slotMaxTime: '18:00:00',
+              timeZone: 'UTC',
+              contentHeight: '50vh',
+              events: this.calendarEvents,
+              expandRows: true,
+              dateClick: this.dateClick.bind(this),
+              allDaySlot: false,
+              lazyFetching: false
+            };
+
+          });
+        }
+      });
     });
   }
 
@@ -74,16 +111,25 @@ export class BookingAppointmentComponent implements OnInit {
   }
 
   addAppointment(): void {
-    this.formGroup.updateValueAndValidity();
+    this.firstClick = true;
     this.calendar = this.calendarComponent.getApi();
     // @ts-ignore
-    const start = new Date(this.calendar.getEventById('newEvent').startStr);
-    this.formGroup.get('start')?.setValue(start.toISOString());
-    start.setHours(start.getHours() + 1);
-    if (this.formGroup.valid) {
+    const start = new Date(this.calendar.getEventById('newEvent')?.startStr);
+    try {
+      this.formGroup.get('start')?.setValue(start.toISOString());
+      start.setMinutes(start.getMinutes() + 59);
       this.formGroup.get('end')?.setValue(start.toISOString());
-      console.log(this.formGroup.value);
-      this.appointmentService.addAppointment('1', this.formGroup.value).then(appointment => {
+    } catch (e) {
+      console.log(e);
+    }
+    if (this.formGroup.valid) {
+      let servicePromise: Promise<Appointment>;
+      if (!this.appointmentId) {
+        servicePromise = this.appointmentService.addAppointment('1', this.formGroup.value);
+      } else {
+        servicePromise = this.appointmentService.updateAppointment(this.appointmentId, this.formGroup.value);
+      }
+      servicePromise.then(appointment => {
         if (appointment) {
           this.router.navigateByUrl('/appointment').then();
         }
