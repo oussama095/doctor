@@ -7,6 +7,9 @@ import {Patient} from '../../model/patient';
 })
 export class PatientService {
   serviceBaseUrl = 'patient';
+  // @ts-ignore
+  patientId: string = localStorage.getItem('patientId').toString();
+
 
   constructor(private http: HttpClient) {
   }
@@ -15,7 +18,10 @@ export class PatientService {
     return this.http.get<Patient[]>(this.serviceBaseUrl + '/all').toPromise().then((patients) => patients);
   }
 
-  getPatient(patientId: string): Promise<Patient> {
+  getPatient(patientId?: string): Promise<Patient> {
+    if (!patientId) {
+      patientId = this.patientId;
+    }
     return this.http.get<Patient>(this.serviceBaseUrl, {params: {patientId}}).toPromise().then((patient) => patient);
   }
 

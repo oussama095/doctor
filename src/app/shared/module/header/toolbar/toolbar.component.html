@@ -18,7 +18,7 @@
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/profile">
+    <button mat-menu-item routerLink="/home/profile">
       <mat-icon>person</mat-icon>
       <span>User profile</span>
     </button>
@@ -26,7 +26,7 @@
       <mat-icon>notifications_off</mat-icon>
       <span>Disable alerts</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="logout()">
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>

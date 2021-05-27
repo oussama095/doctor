@@ -3,6 +3,8 @@ import {Notification} from '../../../model/notification';
 import {MatDialog} from '@angular/material/dialog';
 import {NotificationDialogComponent} from '../notification-dialog/notification-dialog.component';
 import {NotificationService} from '../../../service/notification/notification.service';
+import {AuthService} from '../../../service/auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -13,7 +15,10 @@ export class ToolbarComponent implements OnInit {
   notifications: Notification[] = [];
   notificationsBadge: number | null = 0;
 
-  constructor(public dialog: MatDialog, private notificationService: NotificationService) {
+  constructor(public dialog: MatDialog,
+              private notificationService: NotificationService,
+              private authenticationService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -21,7 +26,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   updateNotification(): void {
-    this.notificationService.getAllNotificationsOfPatient('1').then((notification: Notification[]) => {
+    this.notificationService.getAllNotificationsOfPatient().then((notification: Notification[]) => {
       this.notifications = notification;
       this.notificationsBadge = 0;
       this.notifications.forEach(element => {
@@ -49,5 +54,10 @@ export class ToolbarComponent implements OnInit {
         });
       }
     });
+  }
+
+  logout(): void {
+    this.authenticationService.logout();
+    this.router.navigateByUrl('').then();
   }
 }

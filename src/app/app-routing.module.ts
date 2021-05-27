@@ -1,27 +1,32 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AppointmentRoutingModule} from './views/appointment/appointment-routing.module';
 import {PageNotFoundComponent} from './shared/component/page-not-found/page-not-found.component';
-import {ProfileRoutingModule} from './views/profile/profile-routing.module';
-import {TranscriptionRoutingModule} from './views/transcription/transcription-routing.module';
+import {AuthGuard} from './shared/service/auth/auth.guard';
+
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'profile', redirectTo: '', pathMatch: 'full'},
-  {path: 'appointment', redirectTo: '', pathMatch: 'full'},
-  {path: 'transcription', redirectTo: '', pathMatch: 'full'},
+
+  {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+  {
+    path: 'auth',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./views/authentication/authentication.module').then(m => m.AuthenticationModule)
+  },
+  {
+    path: 'home',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule)
+
+  },
   {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes
-      // , {enableTracing: true}
     ),
-    AppointmentRoutingModule,
-    ProfileRoutingModule,
-    TranscriptionRoutingModule
   ],
+  providers: [AuthGuard],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

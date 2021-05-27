@@ -7,6 +7,8 @@ import {Appointment} from '../../model/appointment';
 })
 export class AppointmentService {
   basicReqUrl = 'appointment/';
+  // @ts-ignore
+  patientId: string = localStorage.getItem('patientId').toString();
 
   constructor(private http: HttpClient) {
   }
@@ -20,21 +22,30 @@ export class AppointmentService {
       .toPromise().then((appointments: Appointment[]) => appointments);
   }
 
-  addAppointment(patient: string, body: Appointment): Promise<Appointment> {
-    return this.http.post<Appointment>(this.basicReqUrl + patient, body).toPromise().then((appointment) => appointment);
+  addAppointment(body: Appointment, patientId?: string): Promise<Appointment> {
+    if (!patientId) {
+      patientId = this.patientId;
+    }
+    return this.http.post<Appointment>(this.basicReqUrl + patientId, body).toPromise().then((appointment) => appointment);
   }
 
   updateAppointment(appointmentId: string, body: Appointment): Promise<Appointment> {
     return this.http.put<Appointment>(this.basicReqUrl + appointmentId, body).toPromise().then((appointment) => appointment);
   }
 
-  getAppointments(patient: string): Promise<Appointment[]> {
-    return this.http.get<Appointment[]>(this.basicReqUrl + patient).toPromise().then((appointments) => appointments);
+  getAppointments(patientId?: string): Promise<Appointment[]> {
+    if (!patientId) {
+      patientId = this.patientId;
+    }
+    return this.http.get<Appointment[]>(this.basicReqUrl + patientId).toPromise().then((appointments) => appointments);
   }
 
-  getAppointment(patient: string, appointmentId: string): Promise<Appointment> {
+  getAppointment(appointmentId: string, patientId?: string): Promise<Appointment> {
+    if (!patientId) {
+      patientId = this.patientId;
+    }
     const params: HttpParams = new HttpParams().set('appointmentId', appointmentId);
-    return this.http.get<Appointment[]>(this.basicReqUrl + patient, {params}).toPromise().then((appointments) => appointments[0]);
+    return this.http.get<Appointment[]>(this.basicReqUrl + patientId, {params}).toPromise().then((appointments) => appointments[0]);
   }
 
   deleteAppointment(appointmentId: string): Promise<any> {
