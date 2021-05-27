@@ -8,12 +8,19 @@ import {Medication} from '../../model/medication';
 export class MedicationService {
 
   private baseUrl = 'medication';
+  // @ts-ignore
+  patientId: string = localStorage.getItem('patientId').toString();
+
 
   constructor(private http: HttpClient) {
   }
 
-  getPatientAllMedication(patientId: string): Promise<Medication[]> {
-    return this.http.get<Medication[]>(this.baseUrl + '/' + patientId).toPromise();
+  getPatientAllMedication(patientId?: string): Promise<Medication[]> {
+    if (!patientId) {
+      patientId = this.patientId;
+    }
+    console.log(patientId);
+    return this.http.get<Medication[]>(this.baseUrl + `/${patientId}`).toPromise();
   }
 
   getMedication(medicationId: string): Promise<Medication> {

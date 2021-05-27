@@ -6,13 +6,17 @@ import {Transcription} from '../../model/transcription';
   providedIn: 'root'
 })
 export class TranscriptionService {
-
+  // @ts-ignore
+  patientId: string = localStorage.getItem('patientId').toString();
   baseUrl = 'transcription/';
 
   constructor(private http: HttpClient) {
   }
 
-  getTranscriptions(patientId: string): Promise<Transcription[]> {
+  getTranscriptions(patientId?: string): Promise<Transcription[]> {
+    if (!patientId) {
+      patientId = this.patientId;
+    }
     return this.http.get<Transcription[]>(this.baseUrl + patientId).toPromise().then((transcriptions) => transcriptions);
   }
 }

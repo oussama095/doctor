@@ -1,0 +1,24 @@
+mat-card-content form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+}
+
+mat-card {
+  margin: auto;
+  max-width: 400px;
+}
+
+.centred {
+  display: flex;
+  height: 100vh;
+  margin: auto;
+
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
