@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{calendarEvent.title}}
+  <button mat-icon-button color="primary" [mat-dialog-close]="true">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<mat-dialog-content>
+  <h3>Appointment Note</h3>
+  <p>{{calendarEvent.extendedProps.description}}</p>
+  <h3>Appointment date</h3>
+  <p>{{date}}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button color="primary" (click)="goToEdit()">Edit</button>
+  <button mat-stroked-button color="warn" (click)="openConfirmationDialog()">Delete</button>
+</mat-dialog-actions>

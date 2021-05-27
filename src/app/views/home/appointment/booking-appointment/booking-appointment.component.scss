@@ -1,0 +1,21 @@
+.basic-container {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-content {
+  padding: 2vh;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
