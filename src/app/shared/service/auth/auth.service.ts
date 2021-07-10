@@ -22,7 +22,6 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  // tslint:disable-next-line:typedef
   login(credentials: Login): Promise<boolean> {
     return this.http.post<any>(this.baseUrl + 'login', credentials, {observe: 'response'}).toPromise().then((res: any) => {
       localStorage.setItem('token', res.headers.get('Authorization'));
