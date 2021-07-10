@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BackEndUrl: 'http://18.221.241.125:8080/',
+  BackEndUrl: 'http://localhost:8081/',
   BaseURLAPI: 'api/'
 };
 
