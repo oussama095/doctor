@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../shared/service/auth/auth.service';
 import {Router} from '@angular/router';
-import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,6 @@ import {environment} from '../../../../environments/environment';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   failedMessage: string | null = null;
-  log: string = environment.BackEndUrl;
 
   constructor(private fb: FormBuilder, private authenticationService: AuthService, private router: Router) {
   }

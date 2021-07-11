@@ -18,7 +18,6 @@ export class Interceptor implements HttpInterceptor {
         headers: req.headers.set('Authorization', token)
       });
     }
-    console.log(environment.BackEndUrl);
     return next.handle(req);
   }
 }
